@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_barang')->unique();
+            $table->string('nama_barang');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->integer('stok');
+            $table->string('lokasi_penyimpanan');
+            $table->enum('kondisi_barang', ['Baik', 'Rusak Ringan', 'Rusak Berat']);
             $table->timestamps();
         });
     }
