@@ -1,25 +1,34 @@
 <?php
 
-namespace App\Models;
+namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Borrowing;
+use Illuminate\Http\Request;
 
-class Borrowing extends Model
+class BorrowingController extends Controller
 {
-    use HasFactory;
-
-    protected $fillable = ['user_id', 'tanggal_pinjam', 'tanggal_kembali', 'status'];
-
-    // Menghubungkan ke user (siapa yang meminjam/staf yang menginput)
-    public function user()
+    public function index()
     {
-        return $this->belongsTo(User::class);
+        // Ganti all() menjadi paginate(10) untuk membagi data, misalnya 10 baris per halaman
+        $borrowings = Borrowing::paginate(10);
+        
+        // Tampilkan ke halaman view
+        return view('borrowings.index', compact('borrowings'));
     }
 
-    // Menghubungkan ke detail barang yang dipinjam
-    public function details()
+    public function create()
     {
-        return $this->hasMany(BorrowingDetail::class);
+        // Logika untuk menampilkan halaman form tambah peminjaman
+        return view('borrowings.create');
+    }
+
+    public function store(Request $request)
+    {
+        // Nanti logika untuk menyimpan data peminjaman ditaruh di sini
+    }
+
+    public function returnAsset($id, Request $request)
+    {
+        // Nanti logika untuk memproses pengembalian barang ditaruh di sini
     }
 }

@@ -6,23 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            // Baris inilah yang sebenarnya bertugas membuat kolom role_id
+            $table->foreignId('role_id')->nullable()->after('email')->constrained('roles');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropForeign(['role_id']);
+            $table->dropColumn('role_id');
         });
     }
 };

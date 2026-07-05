@@ -10,6 +10,14 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
+                    
+                    <div class="mt-4 p-4 bg-gray-100 rounded">
+                        <strong>Deteksi Data Akun Saat Ini:</strong><br>
+                        Nama: {{ Auth::user()->name }} <br>
+                        Email: {{ Auth::user()->email }} <br>
+                        Role ID: {{ Auth::user()->role_id }} <br>
+                        Nama Role: {{ Auth::user()->role->nama_role ?? 'Role tidak ditemukan / Kolom salah' }}
+                    </div>
                 </div>
             </div>
         </div>
