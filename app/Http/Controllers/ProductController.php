@@ -20,7 +20,7 @@ class ProductController extends Controller
         }
 
         // Tampilkan 10 data per halaman
-        $products = $query->latest()->paginate(10);
+        $products = \App\Models\Product::with('category')->latest()->paginate(10);
 
         return view('products.index', compact('products'));
     }
@@ -28,7 +28,7 @@ class ProductController extends Controller
     public function create()
     {
         // Ambil data kategori untuk ditampilkan di pilihan (dropdown) form tambah barang
-        $categories = Category::all();
+        $categories = \App\Models\Category::all();
         return view('products.create', compact('categories'));
     }
 
@@ -45,7 +45,7 @@ class ProductController extends Controller
         ]);
 
         // 2. Simpan data ke database
-        Product::create([
+        \App\Models\Product::create([
             'kode_barang' => $request->kode_barang,
             'nama_barang' => $request->nama_barang,
             'category_id' => $request->category_id,
@@ -58,19 +58,22 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Barang baru berhasil ditambahkan ke inventaris!');
     }
 
-    public function edit(Product $product)
+    public function edit($id)
     {
-        // Ambil data kategori untuk form edit
-        $categories = Category::all();
-        // Buka halaman edit dan kirim data barang yang dipilih beserta daftar kategori
+        // Cari barang yang mau diedit
+        $product = \App\Models\Product::findOrFail($id);
+        
+        // Ambil juga data kategori untuk mengisi menu dropdown
+        $categories = \App\Models\Category::all();
+        
         return view('products.edit', compact('product', 'categories'));
     }
 
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        // 1. Validasi inputan (Perhatikan pengecualian unik untuk kode barang yang sedang diedit)
+        // 1. Validasi Input (Perhatikan pengecualian untuk kode_barang unik)
         $request->validate([
-            'kode_barang' => 'required|string|max:255|unique:products,kode_barang,' . $product->id,
+            'kode_barang' => 'required|string|unique:products,kode_barang,'.$id, 
             'nama_barang' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'stok' => 'required|integer|min:0',
@@ -78,7 +81,8 @@ class ProductController extends Controller
             'kondisi_barang' => 'required|in:Baik,Rusak Ringan,Rusak Berat',
         ]);
 
-        // 2. Perbarui data di database
+        // 2. Cari data lama dan perbarui dengan data baru
+        $product = \App\Models\Product::findOrFail($id);
         $product->update([
             'kode_barang' => $request->kode_barang,
             'nama_barang' => $request->nama_barang,
@@ -87,8 +91,9 @@ class ProductController extends Controller
             'lokasi_penyimpanan' => $request->lokasi_penyimpanan,
             'kondisi_barang' => $request->kondisi_barang,
         ]);
-    // 3. Kembali ke daftar barang
-        return redirect()->route('products.index')->with('success', 'Data barang berhasil diperbarui!');
+
+        // 3. Kembali ke halaman daftar barang
+        return redirect()->route('products.index');
     }
 
     public function destroy(Product $product)

@@ -24,7 +24,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        // Tampilkan halaman form tambah kategori
+        return view('categories.create');
     }
 
     /**
@@ -57,24 +58,35 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        // Cari data kategori berdasarkan ID, lalu kirim ke halaman form edit
+        $category = \App\Models\Category::findOrFail($id);
+        return view('categories.edit', compact('category'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        // 1. Validasi input
+        $request->validate([
+            'nama_kategori' => 'required|string|max:255',
+        ]);
+
+        // 2. Cari data yang mau diedit, lalu simpan perubahan
+        $category = \App\Models\Category::findOrFail($id);
+        $category->update([
+            'nama_kategori' => $request->nama_kategori,
+        ]);
+
+        return redirect()->route('categories.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        // Cari data berdasarkan ID, lalu hapus dari database
+        $category = \App\Models\Category::findOrFail($id);
+        $category->delete();
+
+        return redirect()->route('categories.index');
     }
 }

@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('borrowing_details', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('borrowing_id')->constrained('borrowings')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->enum('status_barang', ['Bagus', 'Rusak'])->default('Bagus');
             $table->timestamps();
         });
     }
