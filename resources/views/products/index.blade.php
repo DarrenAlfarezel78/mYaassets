@@ -17,7 +17,8 @@
                     </button>
                 </form>
 
-                <a href="{{ route('products.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow transition whitespace-nowrap">
+                <a href="{{ route('products.create') }}" 
+                class="bg-brand-red hover:bg-brand-darkred text-white font-semibold py-2 px-5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
                     + Tambah Barang
                 </a>
             </div>
