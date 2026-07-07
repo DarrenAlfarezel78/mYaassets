@@ -78,4 +78,45 @@ class BorrowingController extends Controller
 
         return redirect()->route('borrowings.index');
     }
+
+    public function dashboard()
+    {
+        $totalBarang = \App\Models\Product::count();
+        $barangDipinjam = \App\Models\Borrowing::where('status', 'Dipinjam')->count();
+        $barangTersedia = \App\Models\Product::sum('stok'); // Atau total barang dikurang dipinjam
+
+        return view('dashboard', compact('totalBarang', 'barangDipinjam', 'barangTersedia'));
+    }
+
+    // Method untuk menampilkan daftar riwayat (yang sudah dikembalikan/terlambat)
+    public function history()
+    {
+        $borrowings = \App\Models\Borrowing::with(['user'])
+            ->whereIn('status', ['Dikembalikan', 'Terlambat'])
+            ->orderBy('updated_at', 'desc')
+            ->paginate(10);
+
+        return view('borrowings.history', compact('borrowings'));
+    }
+
+    // Method untuk memproses pengembalian barang
+    public function returnItem(\App\Models\Borrowing $borrowing)
+    {
+        // Ubah status peminjaman utama
+        $borrowing->update([
+            'status' => 'Dikembalikan',
+            'tanggal_kembali' => now(), // Mencatat tanggal dikembalikan secara riil
+        ]);
+
+        // Mengembalikan stok barang berdasarkan detail peminjaman
+        $borrowingDetails = \App\Models\BorrowingDetail::where('borrowing_id', $borrowing->id)->get();
+        foreach ($borrowingDetails as $detail) {
+            $product = \App\Models\Product::find($detail->product_id);
+            if ($product) {
+                $product->increment('stok'); // Stok otomatis bertambah kembali
+            }
+        }
+
+        return redirect()->back()->with('success', 'Barang berhasil dikembalikan dan stok telah diperbarui.');
+    }
 }

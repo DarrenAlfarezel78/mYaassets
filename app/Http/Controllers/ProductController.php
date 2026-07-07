@@ -10,19 +10,19 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $products = \App\Models\Product::all();
-        // Fitur Pencarian & Pagination (Wajib di Challenge)
-        $query = Product::with('category');
+        // Menangkap inputan pencarian dari user
+        $search = $request->input('search');
 
-        if ($request->has('search')) {
-            $query->where('nama_barang', 'like', '%' . $request->search . '%')
-                  ->orWhere('kode_barang', 'like', '%' . $request->search . '%');
-        }
+        // Query data barang beserta relasi kategorinya
+        $products = \App\Models\Product::with('category')
+            ->when($search, function ($query, $search) {
+                return $query->where('nama_barang', 'like', "%{$search}%")
+                             ->orWhere('kode_barang', 'like', "%{$search}%");
+            })
+            // Gunakan paginate() dengan memori pencarian agar halaman selanjutnya tidak reset
+            ->paginate(10)->withQueryString();
 
-        // Tampilkan 10 data per halaman
-        $products = \App\Models\Product::with('category')->latest()->paginate(10);
-
-        return view('products.index', compact('products'));
+        return view('products.index', compact('products', 'search'));
     }
 
     public function create()

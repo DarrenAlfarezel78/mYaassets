@@ -8,8 +8,16 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             
-            <div class="mb-4 flex justify-end">
-                <a href="{{ route('products.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow transition">
+            <div class="mb-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <form method="GET" action="{{ route('products.index') }}" class="flex w-full sm:w-1/3">
+                    <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Cari nama atau kode barang..." 
+                           class="w-full border-gray-300 rounded-l-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                    <button type="submit" class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-r-md transition">
+                        Cari
+                    </button>
+                </form>
+
+                <a href="{{ route('products.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow transition whitespace-nowrap">
                     + Tambah Barang
                 </a>
             </div>
