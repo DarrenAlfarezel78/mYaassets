@@ -6,6 +6,16 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             
+            @if($stokMenipis->count() > 0)
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded shadow" role="alert">
+                    <p class="font-bold">Perhatian! Terdapat {{ $stokMenipis->count() }} barang dengan stok menipis:</p>
+                    <ul class="mt-2 list-disc list-inside text-sm">
+                        @foreach($stokMenipis as $item)
+                            <li><strong>{{ $item->nama_barang }}</strong> (Kode: {{ $item->kode_barang }}) - Tersisa: <span class="font-bold text-red-900">{{ $item->stok }} unit</span></li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h3 class="text-gray-500">Total Barang</h3>

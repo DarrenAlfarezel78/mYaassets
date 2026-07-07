@@ -88,14 +88,14 @@ class BorrowingController extends Controller
         $barangDipinjam = \App\Models\Borrowing::where('status', 'Dipinjam')->count();
         $barangTersedia = \App\Models\Product::sum('stok');
 
-        // Mengambil data peminjaman per bulan untuk tahun ini
+        $stokMenipis = \App\Models\Product::where('stok', '<=', 5)->get();
+
         $peminjamanPerBulan = \App\Models\Borrowing::selectRaw('MONTH(tanggal_pinjam) as bulan, COUNT(*) as total')
             ->whereYear('tanggal_pinjam', date('Y'))
             ->groupBy('bulan')
             ->pluck('total', 'bulan')
             ->toArray();
 
-        // Menyusun array untuk 12 bulan (Januari - Desember)
         $dataGrafik = [];
         for ($i = 1; $i <= 12; $i++) {
             $dataGrafik[] = $peminjamanPerBulan[$i] ?? 0;
