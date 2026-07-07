@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Borrowing;
@@ -83,9 +84,22 @@ class BorrowingController extends Controller
     {
         $totalBarang = \App\Models\Product::count();
         $barangDipinjam = \App\Models\Borrowing::where('status', 'Dipinjam')->count();
-        $barangTersedia = \App\Models\Product::sum('stok'); // Atau total barang dikurang dipinjam
+        $barangTersedia = \App\Models\Product::sum('stok');
 
-        return view('dashboard', compact('totalBarang', 'barangDipinjam', 'barangTersedia'));
+        // Mengambil data peminjaman per bulan untuk tahun ini
+        $peminjamanPerBulan = \App\Models\Borrowing::selectRaw('MONTH(tanggal_pinjam) as bulan, COUNT(*) as total')
+            ->whereYear('tanggal_pinjam', date('Y'))
+            ->groupBy('bulan')
+            ->pluck('total', 'bulan')
+            ->toArray();
+
+        // Menyusun array untuk 12 bulan (Januari - Desember)
+        $dataGrafik = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $dataGrafik[] = $peminjamanPerBulan[$i] ?? 0;
+        }
+
+        return view('dashboard', compact('totalBarang', 'barangDipinjam', 'barangTersedia', 'dataGrafik'));
     }
 
     // Method untuk menampilkan daftar riwayat (yang sudah dikembalikan/terlambat)
@@ -118,5 +132,20 @@ class BorrowingController extends Controller
         }
 
         return redirect()->back()->with('success', 'Barang berhasil dikembalikan dan stok telah diperbarui.');
+    }
+
+    public function exportPdf()
+    {
+        // Ambil data riwayat yang sudah dikembalikan/terlambat
+        $borrowings = \App\Models\Borrowing::with(['user'])
+            ->whereIn('status', ['Dikembalikan', 'Terlambat'])
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        // Render ke tampilan PDF
+        $pdf = Pdf::loadView('borrowings.pdf', compact('borrowings'));
+        
+        // Download file dengan nama laporan-inventaris.pdf
+        return $pdf->download('laporan-inventaris-telkomsel.pdf');
     }
 }

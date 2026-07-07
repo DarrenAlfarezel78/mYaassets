@@ -4,19 +4,62 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-gray-500">Total Barang</h3>
-                <p class="text-3xl font-bold">{{ $totalBarang }}</p>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-gray-500">Total Barang</h3>
+                    <p class="text-3xl font-bold">{{ $totalBarang }}</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-gray-500">Barang Dipinjam</h3>
+                    <p class="text-3xl font-bold text-yellow-600">{{ $barangDipinjam }}</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-gray-500">Barang Tersedia</h3>
+                    <p class="text-3xl font-bold text-green-600">{{ $barangTersedia }}</p>
+                </div>
             </div>
+
             <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-gray-500">Barang Dipinjam</h3>
-                <p class="text-3xl font-bold text-yellow-600">{{ $barangDipinjam }}</p>
+                <h3 class="text-lg font-bold text-gray-700 mb-4">Grafik Peminjaman Tahun {{ date('Y') }}</h3>
+                <div class="relative h-72 w-full">
+                    <canvas id="grafikPeminjaman"></canvas>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-gray-500">Barang Tersedia</h3>
-                <p class="text-3xl font-bold text-green-600">{{ $barangTersedia }}</p>
-            </div>
+
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('grafikPeminjaman').getContext('2d');
+            const dataGrafik = @json($dataGrafik);
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
+                    datasets: [{
+                        label: 'Total Peminjaman',
+                        data: dataGrafik,
+                        backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                        borderColor: 'rgb(59, 130, 246)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </x-app-layout>

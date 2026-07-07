@@ -19,6 +19,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route Riwayat Peminjaman (Diletakkan di sini agar Manager nanti bisa akses sebagai laporan)
     Route::get('/borrowings/history', [BorrowingController::class, 'history'])->name('borrowings.history');
 
+    // Route Bonus: Export PDF Laporan
+    Route::get('/borrowings/export-pdf', [BorrowingController::class, 'exportPdf'])->name('borrowings.pdf');
+
     // Profil Bawaan Breeze
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
