@@ -18,8 +18,8 @@ Aplikasi berbasis web untuk mengelola inventaris kantor, dibangun sebagai penyel
 # Cara Instalasi & Menjalankan Project
 
 1. Clone Repository
-   - git clone https://github.com/DarrenAlfarezel78/mYaassets.git
-   - cd 
+   - git clone (https://github.com/DarrenAlfarezel78/mYaassets.git)
+   - cd (mYaassets)
 
 2. Install Dependencies
    - composer install
