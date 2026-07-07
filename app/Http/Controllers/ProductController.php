@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -34,28 +35,28 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        // 1. Validasi inputan dari form
-        $request->validate([
+        // 1. Validasi inputan dari form (ditambah validasi untuk gambar)
+        $validatedData = $request->validate([
             'kode_barang' => 'required|string|unique:products,kode_barang|max:255',
             'nama_barang' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'stok' => 'required|integer|min:0',
             'lokasi_penyimpanan' => 'required|string|max:255',
             'kondisi_barang' => 'required|in:Baik,Rusak Ringan,Rusak Berat',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Maksimal 2MB
         ]);
 
-        // 2. Simpan data ke database
-        \App\Models\Product::create([
-            'kode_barang' => $request->kode_barang,
-            'nama_barang' => $request->nama_barang,
-            'category_id' => $request->category_id,
-            'stok' => $request->stok,
-            'lokasi_penyimpanan' => $request->lokasi_penyimpanan,
-            'kondisi_barang' => $request->kondisi_barang,
-        ]);
+        // 2. Cek apakah ada file gambar yang diupload
+        if ($request->hasFile('gambar')) {
+            // Simpan gambar ke folder storage/app/public/products
+            $validatedData['gambar'] = $request->file('gambar')->store('products', 'public');
+        }
 
-        // 3. Kembalikan ke halaman daftar dengan pesan sukses
-        return redirect()->route('products.index')->with('success', 'Barang baru berhasil ditambahkan ke inventaris!');
+        // 3. Simpan data ke database
+        \App\Models\Product::create($validatedData);
+
+        // 4. Kembalikan ke halaman daftar dengan pesan sukses
+        return redirect()->route('products.index')->with('success', 'Barang baru berhasil ditambahkan beserta gambarnya!');
     }
 
     public function edit($id)
@@ -71,29 +72,35 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        // 1. Validasi Input (Perhatikan pengecualian untuk kode_barang unik)
-        $request->validate([
+        // 1. Validasi Input
+        $validatedData = $request->validate([
             'kode_barang' => 'required|string|unique:products,kode_barang,'.$id, 
             'nama_barang' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'stok' => 'required|integer|min:0',
             'lokasi_penyimpanan' => 'required|string|max:255',
             'kondisi_barang' => 'required|in:Baik,Rusak Ringan,Rusak Berat',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // 2. Cari data lama dan perbarui dengan data baru
+        // 2. Cari data lama
         $product = \App\Models\Product::findOrFail($id);
-        $product->update([
-            'kode_barang' => $request->kode_barang,
-            'nama_barang' => $request->nama_barang,
-            'category_id' => $request->category_id,
-            'stok' => $request->stok,
-            'lokasi_penyimpanan' => $request->lokasi_penyimpanan,
-            'kondisi_barang' => $request->kondisi_barang,
-        ]);
 
-        // 3. Kembali ke halaman daftar barang
-        return redirect()->route('products.index');
+        // 3. Cek apakah user mengupload gambar baru saat diedit
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama dari server jika sebelumnya sudah ada gambar
+            if ($product->gambar && Storage::disk('public')->exists($product->gambar)) {
+                Storage::disk('public')->delete($product->gambar);
+            }
+            // Simpan gambar yang baru
+            $validatedData['gambar'] = $request->file('gambar')->store('products', 'public');
+        }
+
+        // 4. Perbarui data di database
+        $product->update($validatedData);
+
+        // 5. Kembali ke halaman daftar barang
+        return redirect()->route('products.index')->with('success', 'Data barang berhasil diperbarui!');
     }
 
     public function destroy(Product $product)

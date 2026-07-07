@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 max-w-2xl mx-auto">
                 
-                <form action="{{ route('products.store') }}" method="POST">
+                <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf 
                     
                     <div class="mb-4">
@@ -24,6 +24,11 @@
                         <input type="text" name="nama_barang" id="nama_barang" 
                                class="shadow-sm border-gray-300 rounded w-full focus:ring-blue-500 focus:border-blue-500" 
                                required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Gambar Barang (Opsional)</label>
+                        <input type="file" name="gambar" accept="image/*" class="w-full border-gray-300 rounded-md shadow-sm">
                     </div>
 
                     <div class="mb-4">

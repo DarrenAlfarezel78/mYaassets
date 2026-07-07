@@ -17,7 +17,8 @@ class Product extends Model
         'category_id', 
         'stok', 
         'lokasi_penyimpanan', 
-        'kondisi_barang'
+        'kondisi_barang',
+        'gambar',
     ];
 
     // Relasi ke tabel Category (Satu barang punya satu kategori)
