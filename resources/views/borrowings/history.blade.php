@@ -4,9 +4,14 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Riwayat Peminjaman') }}
             </h2>
-            <a href="{{ route('borrowings.pdf') }}" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded shadow transition">
-                Cetak Laporan (PDF)
-            </a>
+            <div class="space-x-2">
+                <a href="{{ route('borrowings.excel') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow transition">
+                    Export Excel
+                </a>
+                <a href="{{ route('borrowings.pdf') }}" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded shadow transition">
+                    Cetak Laporan (PDF)
+                </a>
+            </div>
         </div>
     </x-slot>
 

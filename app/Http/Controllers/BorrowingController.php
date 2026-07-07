@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BorrowingsExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -147,5 +149,10 @@ class BorrowingController extends Controller
         
         // Download file dengan nama laporan-inventaris.pdf
         return $pdf->download('laporan-inventaris-telkomsel.pdf');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new BorrowingsExport, 'laporan-inventaris-telkomsel.xlsx');
     }
 }

@@ -22,6 +22,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route Bonus: Export PDF Laporan
     Route::get('/borrowings/export-pdf', [BorrowingController::class, 'exportPdf'])->name('borrowings.pdf');
 
+    // Route Bonus: Export Excel Laporan
+    Route::get('/borrowings/export-excel', [\App\Http\Controllers\BorrowingController::class, 'exportExcel'])->name('borrowings.excel');
+
     // Profil Bawaan Breeze
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
