@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Kelola Barang') }}
         </h2>
     </x-slot>
@@ -23,24 +23,24 @@
                 </a>
             </div>
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 overflow-x-auto">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg transition-colors duration-300">
+                <div class="p-6 text-gray-900 dark:text-gray-100 overflow-x-auto">
                     <table class="w-full text-left border-collapse whitespace-nowrap">
                         <thead>
-                            <tr class="bg-gray-100 border-b-2 border-gray-200">
-                                <th class="p-3 font-semibold text-gray-700">No</th>
-                                <th class="p-3 font-semibold text-gray-700">Kode</th>
-                                <th class="p-3 font-semibold text-gray-700">Nama Barang</th>
-                                <th class="p-3 font-semibold text-gray-700">Kategori</th>
-                                <th class="p-3 font-semibold text-gray-700">Stok</th>
-                                <th class="p-3 font-semibold text-gray-700">Kondisi</th>
-                                <th class="p-3 font-semibold text-gray-700">Gambar</th>
-                                <th class="p-3 font-semibold text-gray-700 text-center">Aksi</th>
+                            <tr class="bg-gray-100 dark:bg-gray-700 border-b-2 border-gray-200 dark:border-gray-600">
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">No</th>
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Kode</th>
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Nama Barang</th>
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Kategori</th>
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Stok</th>
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Kondisi</th>
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Gambar</th>
+                                <th class="p-3 font-semibold text-gray-700 text-center dark:text-gray-200">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($products as $index => $product)
-                                <tr class="border-b hover:bg-gray-50 transition">
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
                                     <td class="p-3">{{ $products->firstItem() + $index }}</td>
                                     <td class="p-3"><span class="bg-gray-200 text-gray-800 py-1 px-2 rounded text-sm font-mono">{{ $product->kode_barang }}</span></td>
                                     <td class="p-3 font-medium">{{ $product->nama_barang }}</td>

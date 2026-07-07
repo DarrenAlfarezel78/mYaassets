@@ -36,13 +36,13 @@
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
+                <header class="bg-white dark:bg-gray-800 shadow transition-colors duration-300">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
                         <div class="text-gray-800 dark:text-gray-200">
                             {{ $header }}
                         </div>
                         <button onclick="toggleDarkMode()" class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-3 py-1 rounded-md text-sm font-semibold shadow transition">
-                            Toggle Tema
+                            Tema
                         </button>
                     </div>
                 </header>

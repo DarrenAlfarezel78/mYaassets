@@ -17,22 +17,22 @@
                 </div>
             @endif
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="text-gray-500">Total Barang</h3>
-                    <p class="text-3xl font-bold">{{ $totalBarang }}</p>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition-colors duration-300">
+                    <h3 class="text-gray-500 dark:text-gray-400">Total Barang</h3>
+                    <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ $totalBarang }}</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="text-gray-500">Barang Dipinjam</h3>
-                    <p class="text-3xl font-bold text-yellow-600">{{ $barangDipinjam }}</p>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition-colors duration-300">
+                    <h3 class="text-gray-500 dark:text-gray-400">Barang Dipinjam</h3>
+                    <p class="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{{ $barangDipinjam }}</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="text-gray-500">Barang Tersedia</h3>
-                    <p class="text-3xl font-bold text-green-600">{{ $barangTersedia }}</p>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition-colors duration-300">
+                    <h3 class="text-gray-500 dark:text-gray-400">Barang Tersedia</h3>
+                    <p class="text-3xl font-bold text-green-600 dark:text-green-400">{{ $barangTersedia }}</p>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-lg font-bold text-gray-700 mb-4">Grafik Peminjaman Tahun {{ date('Y') }}</h3>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition-colors duration-300">
+                <h3 class="text-lg font-bold text-gray-700 dark:text-gray-200 mb-4">Grafik Peminjaman Tahun {{ date('Y') }}</h3>
                 <div class="relative h-72 w-full">
                     <canvas id="grafikPeminjaman"></canvas>
                 </div>

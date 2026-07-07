@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Kelola Peminjaman Barang') }}
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Daftar Peminjaman') }}
         </h2>
     </x-slot>
 
@@ -14,23 +14,23 @@
                 </a>
             </div>
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 overflow-x-auto">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg transition-colors duration-300">
+                <div class="p-6 text-gray-900 dark:text-gray-100 overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-gray-100 border-b-2 border-gray-200">
-                                <th class="p-3 font-semibold text-gray-700">No</th>
-                                <th class="p-3 font-semibold text-gray-700">Nama Peminjam</th>
-                                <th class="p-3 font-semibold text-gray-700">Tanggal Pinjam</th>
-                                <th class="p-3 font-semibold text-gray-700">Batas Kembali</th>
-                                <th class="p-3 font-semibold text-gray-700">Daftar Barang</th>
-                                <th class="p-3 font-semibold text-gray-700 text-center">Status</th>
-                                <th class="p-3 font-semibold text-gray-700 text-center">Aksi</th>
+                            <tr class="bg-gray-100 dark:bg-gray-700 border-b-2 border-gray-200 dark:border-gray-600
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">No</th>
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Nama Peminjam</th>
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Tanggal Pinjam</th>
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Batas Kembali</th>
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Daftar Barang</th>
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200 text-center">Status</th>
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200 text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($borrowings as $index => $borrowing)
-                                <tr class="border-b hover:bg-gray-50 transition">
+                                <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
                                     <td class="p-3 align-top">{{ $borrowings->firstItem() + $index }}</td>
                                     <td class="p-3 align-top font-medium">{{ $borrowing->user->name ?? 'User Terhapus' }}</td>
                                     <td class="p-3 align-top">{{ \Carbon\Carbon::parse($borrowing->tanggal_pinjam)->format('d M Y') }}</td>
