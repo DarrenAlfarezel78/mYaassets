@@ -101,7 +101,7 @@ class BorrowingController extends Controller
             $dataGrafik[] = $peminjamanPerBulan[$i] ?? 0;
         }
 
-        return view('dashboard', compact('totalBarang', 'barangDipinjam', 'barangTersedia', 'dataGrafik'));
+        return view('dashboard', compact('totalBarang', 'barangDipinjam', 'barangTersedia', 'dataGrafik', 'stokMenipis'));
     }
 
     // Method untuk menampilkan daftar riwayat (yang sudah dikembalikan/terlambat)

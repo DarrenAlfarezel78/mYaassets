@@ -34,6 +34,7 @@
                                 <th class="p-3 font-semibold text-gray-700">Kategori</th>
                                 <th class="p-3 font-semibold text-gray-700">Stok</th>
                                 <th class="p-3 font-semibold text-gray-700">Kondisi</th>
+                                <th class="p-3 font-semibold text-gray-700">Gambar</th>
                                 <th class="p-3 font-semibold text-gray-700 text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -43,6 +44,13 @@
                                     <td class="p-3">{{ $products->firstItem() + $index }}</td>
                                     <td class="p-3"><span class="bg-gray-200 text-gray-800 py-1 px-2 rounded text-sm font-mono">{{ $product->kode_barang }}</span></td>
                                     <td class="p-3 font-medium">{{ $product->nama_barang }}</td>
+                                    <td class="p-3">
+                                        @if($product->gambar)
+                                            <img src="{{ asset('storage/' . $product->gambar) }}" alt="Gambar" class="w-16 h-16 object-cover rounded-md shadow-sm">
+                                        @else
+                                            <span class="text-xs text-gray-400 italic">Tanpa gambar</span>
+                                        @endif
+                                    </td>
                                     <td class="p-3">{{ $product->category->nama_kategori ?? 'Tanpa Kategori' }}</td>
                                     <td class="p-3">{{ $product->stok }}</td>
                                     <td class="p-3">

@@ -13,7 +13,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    @if(Auth::user()->role && (Auth::user()->role->nama_role == 'Admin' || Auth::user()->role->nama_role == 'Staff'))
+                    @if(Auth::user()->role && in_array(Auth::user()->role->nama_role, ['Admin', 'Staff']))
                         <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
                             {{ __('Kategori') }}
                         </x-nav-link>
@@ -22,8 +22,14 @@
                             {{ __('Barang') }}
                         </x-nav-link>
 
-                        <x-nav-link :href="route('borrowings.index')" :active="request()->routeIs('borrowings.*')">
+                        <x-nav-link :href="route('borrowings.index')" :active="request()->routeIs('borrowings.index')">
                             {{ __('Peminjaman') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if(Auth::user()->role && in_array(Auth::user()->role->nama_role, ['Admin', 'Manager']))
+                        <x-nav-link :href="route('borrowings.history')" :active="request()->routeIs('borrowings.history')">
+                            {{ __('Laporan Peminjaman') }}
                         </x-nav-link>
                     @endif
                 </div>

@@ -16,13 +16,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Semua role bisa masuk ke Dashboard
     Route::get('/dashboard', [BorrowingController::class, 'dashboard'])->name('dashboard');
 
-    // Route Riwayat Peminjaman (Diletakkan di sini agar Manager nanti bisa akses sebagai laporan)
+    // LAPORAN & EXPORT
     Route::get('/borrowings/history', [BorrowingController::class, 'history'])->name('borrowings.history');
-
-    // Route Bonus: Export PDF Laporan
     Route::get('/borrowings/export-pdf', [BorrowingController::class, 'exportPdf'])->name('borrowings.pdf');
-
-    // Route Bonus: Export Excel Laporan
     Route::get('/borrowings/export-excel', [\App\Http\Controllers\BorrowingController::class, 'exportExcel'])->name('borrowings.excel');
 
     // Profil Bawaan Breeze
