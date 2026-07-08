@@ -18,13 +18,13 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100 overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-gray-100 dark:bg-gray-700 border-b-2 border-gray-200 dark:border-gray-600
-                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">No</th>
+                            <tr class="bg-gray-100 dark:bg-gray-700 border-b-2 border-gray-200 dark:border-gray-600">
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200 w-12">No</th>
                                 <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Nama Peminjam</th>
                                 <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Tanggal Pinjam</th>
                                 <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Batas Kembali</th>
                                 <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Daftar Barang</th>
-                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200 text-center">Status</th>
+                                <th class="p-3 font-semibold text-gray-700 dark:text-gray-200">Status</th>
                                 <th class="p-3 font-semibold text-gray-700 dark:text-gray-200 text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -61,8 +61,8 @@
                                         @if($borrowing->status == 'Dipinjam' || $borrowing->status == 'Terlambat')
                                             <form action="{{ route('borrowings.return', $borrowing->id) }}" method="POST" class="inline-block">
                                                 @csrf
-                                                @method('PUT')
-                                                <button type="submit" class="text-sm bg-green-600 hover:bg-green-700 text-white font-semibold py-1 px-3 rounded shadow-sm transition" onclick="return confirm('Proses pengembalian untuk seluruh barang dalam transaksi ini?')">
+                                                @method('PATCH')
+                                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded-md text-sm shadow transition duration-300">
                                                     Kembalikan
                                                 </button>
                                             </form>

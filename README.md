@@ -47,12 +47,12 @@ Gunakan akun di bawah ini untuk menguji hak akses masing-masing role:
 
 1. Admin (Full Access)
 Email: admin@admin.com
-Password: password
+Password: 12345678
 
 2. Staff (Kelola Data Inventaris)
 Email: staff@staff.com
-Password: password
+Password: 12345678
 
 3. Manager (Melihat Laporan)
 Email: manager@manager.com
-Password: password
+Password: 12345678
