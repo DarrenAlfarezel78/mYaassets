@@ -17,19 +17,19 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'name' => 'Akun Admin',
-                'email' => 'admin@telkomin.id',
+                'email' => 'admin@admin.id',
                 'password' => Hash::make('12345678'),
                 'role_id' => 1, // Mengacu ke role Admin
             ],
             [
                 'name' => 'Akun Staff',
-                'email' => 'staff@telkomin.id',
+                'email' => 'staff@staff.id',
                 'password' => Hash::make('12345678'),
                 'role_id' => 2, // Mengacu ke role Staff
             ],
             [
                 'name' => 'Akun Manager',
-                'email' => 'manager@telkomin.id',
+                'email' => 'manager@manager.id',
                 'password' => Hash::make('12345678'),
                 'role_id' => 3, // Mengacu ke role Manager
             ],
